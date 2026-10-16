@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captain Romany - Fitness Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --primary-red: #e60000;
+            --accent-yellow: #ffcc00;
+            --text-white: #ffffff;
+            --text-muted: #b3b3b3;
+            --border-color: #333333;
+        }
+
+        [dir="ltr"] { text-align: left; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-black); color: var(--text-white); line-height: 1.6; padding-bottom: 50px; }
+
+        .top-bar {
+            background: linear-gradient(90deg, #1a1a1a, #262626);
+            border-bottom: 2px solid var(--primary-red);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .social-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #000;
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .btn-whatsapp { background-color: #25D366; }
+        .btn-tiktok { background-color: #000000; border: 1px solid #333; }
+        .btn-facebook { background-color: #1877F2; }
+        .btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+        .lang-btn {
+            background-color: var(--accent-yellow);
+            color: #000;
+            border: none;
+            padding: 8px 18px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title { color: var(--accent-yellow); font-size: 1.4rem; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+        label { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; }
+
+        input, select, textarea {
+            background-color: #000;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus { border-color: var(--accent-yellow); }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary { background-color: var(--primary-red); color: #fff; }
+        .btn-accent { background-color: var(--accent-yellow); color: #000; }
+        .btn-danger { background-color: #990000; color: #fff; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            background-color: #262626;
+            color: var(--text-white);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active { background-color: var(--primary-red); color: #fff; font-weight: bold; }
+
+        .hidden { display: none !important; }
+
+        .subscriber-box {
+            background: #111;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .subscriber-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #222;
+            padding: 12px 15px;
+            border-radius: 6px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .subscriber-body {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .info-group { background: #181818; padding: 15px; border-radius: 6px; border: 1px solid #282828; }
+        .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #222; }
+        .formatted-content { white-space: pre-wrap; word-break: break-word; line-height: 1.8; color: #ddd; }
+        .formatted-content a { color: var(--accent-yellow); text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="social-container">
+            <span style="color:var(--accent-yellow); font-weight:bold; font-size:0.9rem;">تواصل معنا:</span>
+            <div style="display:flex; gap:10px;">
+                <a href="https://wa.me/201044578792" target="_blank" class="social-btn btn-whatsapp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.tiktok.com/@romanyamer1212712?_r=1&_t=ZS-9AYGYvXN2Hq" target="_blank" class="social-btn btn-tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.facebook.com/share/1HVK6FUCvm/?mibextid=wwXIfr" target="_blank" class="social-btn btn-facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/romyo71200?obrf=ZDV4NXZzYnp3b3Zw&utm_source=qr" target="_blank" class="social-btn btn-instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <button class="lang-btn" onclick="toggleLanguage()"><i class="fas fa-globe"></i> <span id="langText">English</span></button>
+    </div>
+
+    <div class="container">
+
+        <div id="authSection" class="card">
+            <div class="card-header">
+                <h2 class="card-title">دخول / تسجيل المشتركين</h2>
+            </div>
+            
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="switchAuthMode('login')" id="tabLogin">تسجيل الدخول</button>
+                <button class="tab-btn" onclick="switchAuthMode('register')" id="tabRegister">حساب جديد</button>
+                <button class="tab-btn" onclick="switchAuthMode('admin')" id="tabAdmin">دخول الكابتن</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>رقم الموبايل</label>
+                        <input type="tel" id="loginPhone" required placeholder="01012345678">
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة السر</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                </div>
+                <button type="submit" id="loginSubmitBtn" class="btn btn-primary" style="margin-top: 15px; width: 100%;">دخول</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>الاسم الكامل</label><input type="text" id="regName" required></div>
+                    <div class="form-group"><label>رقم الموبايل</label><input type="tel" id="regPhone" required placeholder="01012345678"></div>
+                    <div class="form-group"><label>كلمة السر</label><input type="password" id="regPassword" required></div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="regGender">
+                            <option value="male">ذكر</option>
+                            <option value="female">أنثى</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>السن</label><input type="number" id="regAge" required></div>
+                    <div class="form-group"><label>الطول (سم)</label><input type="number" id="regHeight" required></div>
+                    <div class="form-group"><label>الوزن (كجم)</label><input type="number" id="regWeight" required></div>
+                    <div class="form-group">
+                        <label>الهدف من التمرين</label>
+                        <select id="regGoal">
+                            <option value="نقص الوزن">نقص الوزن</option>
+                            <option value="زيادة الوزن">زيادة الوزن</option>
+                            <option value="زيادة الكتلة العضلية">زيادة الكتلة العضلية</option>
+                            <option value="لياقة بدنية">لياقة بدنية</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مدة الاشتراك</label>
+                        <select id="regPlan">
+                            <option value="1">شهر واحد</option>
+                            <option value="2">شهرين</option>
+                            <option value="3">ثلاث أشهر</option>
+                            <option value="6">6 أشهر</option>
+                            <option value="12">سنة كاملة</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>ملاحظة دائمة (اختياري)</label><input type="text" id="regNoteOpt" placeholder="أي إصابة أو حساسية..."></div>
+                </div>
+                <button type="submit" id="regSubmitBtn" class="btn btn-accent" style="margin-top: 15px; width: 100%;">تقديم طلب الاشتراك</button>
+            </form>
+
+            <!-- Admin Login Form -->
+            <form id="adminLoginForm" class="hidden" onsubmit="handleAdminLogin(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>إيميل الكابتن</label><input type="email" id="adminEmail" value="romany@admin.com" required></div>
+                    <div class="form-group"><label>كلمة السر</label><input type="password" id="adminPassword" required placeholder="أدخل كلمة السر"></div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 15px; width: 100%;">دخول لوحة التحكم</button>
+            </form>
+        </div>
+
+        <!-- Member Dashboard -->
+        <div id="memberDashboard" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-circle"></i> أهلاً بك <span id="memberNameDisplay"></span></h2>
+                    <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+                </div>
+
+                <div class="card" style="background:#111;">
+                    <h3 style="color:var(--accent-yellow); margin-bottom:10px;"><i class="fas fa-calendar-alt"></i> تفاصيل اشتراكك</h3>
+                    <div class="info-row"><span>تاريخ الاشتراك:</span> <b id="memberStartDate" style="color:#fff;"></b></div>
+                    <div class="info-row" style="border-bottom:none;"><span>تاريخ انتهاء الاشتراك:</span> <b id="memberEndDate" style="color:var(--accent-yellow);"></b></div>
+                </div>
+
+                <div class="card" style="background:#111;">
+                    <h3 style="color:var(--accent-yellow); margin-bottom:10px;"><i class="fas fa-utensils"></i> النظام الغذائي</h3>
+                    <div id="dietContent" class="formatted-content">جاري التحميل من شيت جوجل...</div>
+                    <hr style="border-color:#333; margin:15px 0;">
+                    <h3 style="color:var(--accent-yellow); margin-bottom:10px;"><i class="fas fa-dumbbell"></i> نظام التمرين</h3>
+                    <div id="workoutContent" class="formatted-content">جاري التحميل من شيت جوجل...</div>
+                    <hr style="border-color:#333; margin:15px 0;">
+                    <h3 style="color:var(--accent-yellow); margin-bottom:10px;"><i class="fas fa-sticky-note"></i> ملاحظات الكابتن</h3>
+                    <div id="coachNotesContent" class="formatted-content">جاري التحميل من شيت جوجل...</div>
+                </div>
+
+                <div class="card" style="background:#111;">
+                    <h3 style="color:var(--accent-yellow); margin-bottom:10px;"><i class="fas fa-pen"></i> ملاحظاتي للكابتن (تُحفظ مباشرة بجدول البيانات)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>ملاحظة دائمة</label>
+                            <textarea id="permNote" rows="2" placeholder="أي حساسية أو إصابة مسبقة..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>ملاحظة اليومية</label>
+                            <textarea id="dailyNote" rows="2" placeholder="شرح عن التمرين اليومي أو الوجبات..."></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-accent" id="saveMemberNotesBtn" style="margin-top:10px;" onclick="saveMemberNotes()"><i class="fas fa-cloud-upload-alt"></i> حفظ الملاحظات أونلاين</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Captain Dashboard -->
+        <div id="adminDashboard" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-shield"></i> لوحة تحكم الكابتن روماني</h2>
+                    <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                    <h3>قائمة المشتركين</h3>
+                    <button class="btn btn-primary" onclick="loadSubscribers()"><i class="fas fa-sync-alt"></i> تحديث البيانات من شيت جوجل</button>
+                </div>
+                
+                <div id="adminSubscribersList"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUyi8xPDkmRfpGVvFB8iN8mF7VpXzaTOsUAJB4UvIeGhdPeZS7fLATYpSOGt6p9BTV7w/exec";
+
+        let currentUser = null;
+        let allSubscribers = [];
+
+        function apiRequest(params) {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
+                window[callbackName] = function(data) {
+                    delete window[callbackName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    resolve(data);
+                };
+                const script = document.createElement('script');
+                let queryString = '?callback=' + callbackName;
+                for (let key in params) {
+                    queryString += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+                }
+                script.src = SCRIPT_URL + queryString;
+                script.onerror = function() {
+                    delete window[callbackName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    reject(new Error("فشل الاتصال بـ Google Sheets"));
+                };
+                document.body.appendChild(script);
+            });
+        }
+
+        function cleanPhone(p) {
+            if(!p) return "";
+            let str = String(p).replace(/\D/g, '');
+            if(str.startsWith('20')) str = str.substring(2);
+            if(str.startsWith('0')) str = str.substring(1);
+            return str;
+        }
+
+        function formatTextWithLinks(text) {
+            if(!text || text.trim() === "") return "لا يوجد حالياً.";
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const savedPhone = localStorage.getItem('c_phone');
+            const savedRole = localStorage.getItem('c_role');
+
+            if (savedRole === 'admin') {
+                showAdminDashboard();
+            } else if (savedPhone) {
+                fetchUserDataAndLogin(savedPhone);
+            }
+        });
+
+        async function fetchUserDataAndLogin(phone) {
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                    const user = allSubscribers.find(u => cleanPhone(u.phone) === cleanPhone(phone));
+                    if(user) {
+                        currentUser = user;
+                        showMemberDashboard();
+                    } else {
+                        logout();
+                    }
+                }
+            } catch(e) {}
+        }
+
+        function switchAuthMode(mode) {
+            document.querySelectorAll(".nav-tabs .tab-btn").forEach(b => b.classList.remove("active"));
+            document.getElementById("loginForm").classList.add("hidden");
+            document.getElementById("registerForm").classList.add("hidden");
+            document.getElementById("adminLoginForm").classList.add("hidden");
+
+            if(mode === 'login') {
+                document.getElementById("tabLogin").classList.add("active");
+                document.getElementById("loginForm").classList.remove("hidden");
+            } else if(mode === 'register') {
+                document.getElementById("tabRegister").classList.add("active");
+                document.getElementById("registerForm").classList.remove("hidden");
+            } else {
+                document.getElementById("tabAdmin").classList.add("active");
+                document.getElementById("adminLoginForm").classList.remove("hidden");
+            }
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            return `${String(d.getDate()).padStart(2, '0')} / ${String(d.getMonth() + 1).padStart(2, '0')} / ${d.getFullYear()}`;
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById("regSubmitBtn");
+            btn.disabled = true;
+            btn.innerText = "جاري الحفظ في شيت جوجل...";
+
+            const rawPhone = document.getElementById("regPhone").value.trim();
+            const monthsCount = parseInt(document.getElementById("regPlan").value);
+            
+            const startDateObj = new Date();
+            const endDateObj = new Date();
+            endDateObj.setMonth(startDateObj.getMonth() + monthsCount);
+
+            const newUser = {
+                id: "sub_" + Date.now(),
+                name: document.getElementById("regName").value.trim(),
+                phone: rawPhone,
+                password: document.getElementById("regPassword").value.trim(),
+                gender: document.getElementById("regGender").value,
+                age: document.getElementById("regAge").value,
+                height: document.getElementById("regHeight").value,
+                weight: document.getElementById("regWeight").value,
+                goal: document.getElementById("regGoal").value,
+                planMonths: monthsCount,
+                startDate: formatDate(startDateObj),
+                endDate: formatDate(endDateObj),
+                photo: "",
+                diet: "",
+                workout: "",
+                coachNotes: "",
+                permNote: document.getElementById("regNoteOpt").value.trim(),
+                dailyNote: ""
+            };
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(newUser) });
+                alert("تم التسجيل والحفظ في شيت جوجل بنجاح!");
+                localStorage.setItem('c_phone', rawPhone);
+                localStorage.setItem('c_role', 'member');
+                currentUser = newUser;
+                showMemberDashboard();
+            } catch(err) {
+                alert("تعذر الحفظ في الشيت، تأكد من الاتصال بالإنتـرنت!");
+            }
+            btn.disabled = false;
+            btn.innerText = "تقديم طلب الاشتراك";
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById("loginSubmitBtn");
+            btn.disabled = true;
+            btn.innerText = "جاري جلب بياناتك من شيت جوجل...";
+
+            const phoneInput = document.getElementById("loginPhone").value.trim();
+            const passInput = document.getElementById("loginPassword").value.trim();
+
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                    const user = allSubscribers.find(u => cleanPhone(u.phone) === cleanPhone(phoneInput) && String(u.password).trim() === passInput);
+
+                    if(user) {
+                        currentUser = user;
+                        localStorage.setItem('c_phone', user.phone);
+                        localStorage.setItem('c_role', 'member');
+                        showMemberDashboard();
+                    } else {
+                        alert("رقم الموبايل أو كلمة السر غير صحيحة!");
+                    }
+                }
+            } catch(err) {
+                alert("خطأ أثناء الاتصال بشيت جوجل!");
+            }
+
+            btn.disabled = false;
+            btn.innerText = "دخول";
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            if(document.getElementById("adminEmail").value.trim() === "romany@admin.com" && document.getElementById("adminPassword").value.trim() === "admin123") {
+                localStorage.setItem('c_role', 'admin');
+                showAdminDashboard();
+            } else {
+                alert("بيانات دخول الكابتن غير صحيحة!");
+            }
+        }
+
+        function showMemberDashboard() {
+            document.getElementById("authSection").classList.add("hidden");
+            document.getElementById("adminDashboard").classList.add("hidden");
+            document.getElementById("memberDashboard").classList.remove("hidden");
+
+            document.getElementById("memberNameDisplay").innerText = currentUser.name || "";
+            document.getElementById("memberStartDate").innerText = currentUser.startDate || "";
+            document.getElementById("memberEndDate").innerText = currentUser.endDate || "";
+
+            document.getElementById("dietContent").innerHTML = formatTextWithLinks(currentUser.diet);
+            document.getElementById("workoutContent").innerHTML = formatTextWithLinks(currentUser.workout);
+            document.getElementById("coachNotesContent").innerHTML = formatTextWithLinks(currentUser.coachNotes);
+            
+            document.getElementById("permNote").value = currentUser.permNote || "";
+            document.getElementById("dailyNote").value = currentUser.dailyNote || "";
+        }
+
+        function showAdminDashboard() {
+            document.getElementById("authSection").classList.add("hidden");
+            document.getElementById("memberDashboard").classList.add("hidden");
+            document.getElementById("adminDashboard").classList.remove("hidden");
+            loadSubscribers();
+        }
+
+        async function saveMemberNotes() {
+            if(!currentUser) return;
+            const btn = document.getElementById("saveMemberNotesBtn");
+            btn.disabled = true;
+            btn.innerText = "جاري الحفظ في الشيت...";
+
+            currentUser.permNote = document.getElementById("permNote").value;
+            currentUser.dailyNote = document.getElementById("dailyNote").value;
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(currentUser) });
+                alert("تم حفظ الملاحظات بجدول بيانات الكابتن بنجاح ولن تتمسح إطلاقاً!");
+            } catch(e) {
+                alert("فشل الحفظ أونلاين!");
+            }
+            btn.disabled = false;
+            btn.innerText = "حفظ الملاحظات أونلاين";
+        }
+
+        async function loadSubscribers() {
+            const container = document.getElementById("adminSubscribersList");
+            container.innerHTML = "<p style='color:var(--accent-yellow); text-align:center;'>جاري جلب أحدث البيانات مباشرة من شيت جوجل...</p>";
+
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                }
+            } catch(e) {}
+
+            container.innerHTML = "";
+
+            if(allSubscribers.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:#888;'>لا يوجد مشتركون مسجلون حالياً في الشيت.</p>";
+                return;
+            }
+
+            allSubscribers.forEach((u, idx) => {
+                const uId = u.id || ('idx_' + idx);
+                const box = document.createElement("div");
+                box.className = "subscriber-box";
+                box.innerHTML = `
+                    <div class="subscriber-header">
+                        <div>
+                            <b style="color:var(--accent-yellow); font-size:1.1rem;">${u.name}</b>
+                            <div style="color:#25D366; font-size:0.9rem;">📱 ${u.phone}</div>
+                        </div>
+                        <div>
+                            <button class="btn btn-danger" onclick="deleteSubscriber('${u.id}', '${u.phone}')">حذف</button>
+                        </div>
+                    </div>
+                    <div class="subscriber-body">
+                        <div class="info-group">
+                            <h4 style="color:var(--accent-yellow); margin-bottom:10px;">بيانات المشترك</h4>
+                            <div class="info-row"><span>كلمة السر:</span> <b>${u.password}</b></div>
+                            <div class="info-row"><span>السن / الوزن / الطول:</span> <b>${u.age} سنة / ${u.weight} كجم / ${u.height} سم</b></div>
+                            <div class="info-row"><span>الهدف:</span> <b>${u.goal}</b></div>
+                            <div class="info-row"><span>مدة الاشتراك:</span> <b>من ${u.startDate} إلى ${u.endDate}</b></div>
+                        </div>
+                        
+                        <div class="info-group">
+                            <h4 style="color:var(--accent-yellow); margin-bottom:10px;">الأنظمة المخصصة (تُحفظ بالشيت مباشرة)</h4>
+                            <div class="form-group" style="margin-bottom:10px;">
+                                <label>النظام الغذائي:</label>
+                                <textarea id="diet_${uId}" rows="3">${u.diet || ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>نظام التمرين:</label>
+                                <textarea id="workout_${uId}" rows="3">${u.workout || ''}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="info-group">
+                            <h4 style="color:var(--accent-yellow); margin-bottom:10px;">الملاحظات والردود</h4>
+                            <div class="form-group" style="margin-bottom:10px;">
+                                <label>ملاحظات الكابتن للمتدرب:</label>
+                                <textarea id="notes_${uId}" rows="2">${u.coachNotes || ''}</textarea>
+                            </div>
+                            <div style="background:#000; padding:10px; border-radius:6px; margin-bottom:10px; font-size:0.9rem;">
+                                📌 <b>ملاحظة المتدرب الدائمة:</b> <span style="color:var(--accent-yellow);">${u.permNote || 'لا يوجد'}</span><br>
+                                📝 <b>ملاحظة اليومية:</b> <span style="color:var(--accent-yellow);">${u.dailyNote || 'لا يوجد'}</span>
+                            </div>
+                            <button class="btn btn-accent" style="width:100%;" onclick="saveUserDataByAdmin('${u.id}', '${u.phone}')">حفظ التعديلات في شيت جوجل</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        async function saveUserDataByAdmin(id, phone) {
+            let user = allSubscribers.find(u => String(u.id) === String(id) || cleanPhone(u.phone) === cleanPhone(phone));
+            if(user) {
+                const uId = user.id || id;
+                user.diet = document.getElementById(`diet_${uId}`).value;
+                user.workout = document.getElementById(`workout_${uId}`).value;
+                user.coachNotes = document.getElementById(`notes_${uId}`).value;
+
+                try {
+                    await apiRequest({ action: "save", data: JSON.stringify(user) });
+                    alert("تم حفظ النظام والملاحظات في شيت جوجل أونلاين!");
+                    loadSubscribers();
+                } catch(e) {
+                    alert("تعذر الحفظ في الشيت!");
+                }
+            }
+        }
+
+        async function deleteSubscriber(id, phone) {
+            if(confirm("هل أنت متأكد من حذف هذا المشترك نهائياً من شيت جوجل؟")) {
+                try {
+                    await apiRequest({ action: "delete", id: id, phone: phone });
+                    alert("تم الحذف بنجاح!");
+                    loadSubscribers();
+                } catch(e) {
+                    alert("فشل الحذف من السيرفر!");
+                }
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('c_phone');
+            localStorage.removeItem('c_role');
+            document.getElementById("memberDashboard").classList.add("hidden");
+            document.getElementById("adminDashboard").classList.add("hidden");
+            document.getElementById("authSection").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
